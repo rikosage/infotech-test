@@ -4,6 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\Books;
+use app\models\Authors;
 use app\models\search\BooksSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -64,12 +65,14 @@ class BooksController extends Controller
     public function actionCreate()
     {
         $model = new Books();
+        $authors = Authors::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
                 'model' => $model,
+                'authors' => $authors,
             ]);
         }
     }
@@ -83,12 +86,14 @@ class BooksController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $authors = Authors::find()->all();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
                 'model' => $model,
+                'authors' => $authors,
             ]);
         }
     }

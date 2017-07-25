@@ -1,8 +1,10 @@
 <?php
 
-namespace app\models;
+namespace app\models\relations;
 
 use Yii;
+use app\models\Books;
+use app\models\Authors;
 
 /**
  * This is the model class for table "book_author".

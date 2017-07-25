@@ -49,6 +49,15 @@ class Authors extends \yii\db\ActiveRecord
         ];
     }
 
+    public function getName()
+    {
+        return vsprintf("%s %s%s", [
+            $this->first_name,
+            $this->middle_name ? $this->middle_name . " " : null,
+            $this->last_name 
+        ]);
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

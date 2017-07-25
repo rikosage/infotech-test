@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\select2\Select2;
+use kartik\file\FileInput;
+use yii\helpers\ArrayHelper;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Books */
@@ -20,7 +23,20 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'isbn')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'image')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+        'options' => ['accept' => 'image/*'],
+    ]); ?>
+
+    <?= $form->field($model, "author_ids")->widget(Select2::className(), [
+        'data' => ArrayHelper::map($authors, 'id', 'name'),
+        'options' => [
+            'multiple' => true,
+            'placeholder' => 'Выберите авторов этой книги'
+        ],
+        'pluginOptions' => [
+            'allowClear' => true
+        ],
+    ]); ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>

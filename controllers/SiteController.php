@@ -61,6 +61,7 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+        var_dump(Yii::$app->user->getIdentity());exit;
         return $this->render('index');
     }
 

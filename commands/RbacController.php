@@ -4,6 +4,7 @@ namespace app\commands;
 
 use Yii;
 use yii\console\Controller;
+use app\models\User;
 
 /**
  * Базовый класс для инициализации RBAC
@@ -56,6 +57,23 @@ class RbacController extends Controller
     }
 
     /**
+     * Устанавливает роли базовым пользователям
+     * @return void
+     */
+    private function setRolesForUser()
+    {
+        $users = User::find()->all();
+        foreach ($users as $user) {
+            $roleName = $user->username === "moderator"
+                ? self::USER_ROLE
+                : self::GUEST_ROLE;
+
+            $role = Yii::$app->authManager->getRole($roleName);
+            Yii::$app->authManager->assign($role, $user->id);
+        }
+    }
+
+    /**
      * Выполняет инициализацию RBAC и создает базовые сущности.
      * @return void
      */
@@ -83,8 +101,12 @@ class RbacController extends Controller
         $this->setPermissionsForRoles($guest, ['author'], ['read', 'subscribe']);
         $this->setPermissionsForRoles($guest, ['book'], ['read']);
 
+        $this->setRolesForUser();
+
         echo "Created RBAC entities!\n";
     }
+
+
 
     /**
      * Выполняет откат сущностей RBAC

@@ -33,7 +33,12 @@ $this->params['breadcrumbs'][] = $this->title;
             'year',
             'description:ntext',
             'isbn',
-            'image',
+            [
+                'attribute'=>'image',
+                'value'=>$model->imagePath,
+                'format' => ['image',['width'=>'100','height'=>'150']],
+            ],
+
         ],
     ]) ?>
 

@@ -3,11 +3,14 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\Books;
+
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\forms\LoginForm;
+use app\behaviors\SaveImageBehavior;
 
 class SiteController extends Controller
 {
@@ -17,6 +20,11 @@ class SiteController extends Controller
     public function behaviors()
     {
         return [
+            'saveImage' => [
+                'class' => SaveImageBehavior::className(),
+                'attribute' => "image",
+                'imageAttribute' => "imageFile",
+            ],
             'access' => [
                 'class' => AccessControl::className(),
                 'only' => ['logout'],
@@ -51,14 +59,6 @@ class SiteController extends Controller
                 'class' => 'yii\web\ErrorAction',
             ],
         ];
-    }
-
-    public function beforeAction($action)
-    {
-        if ($this->action) {
-            # code...
-        }
-        return parent::beforeAction($action);
     }
 
     /**

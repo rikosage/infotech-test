@@ -4,6 +4,8 @@ namespace app\models;
 
 use Yii;
 
+use app\behaviors\SaveImageBehavior;
+
 /**
  * This is the model class for table "books".
  *
@@ -21,6 +23,18 @@ class Books extends \yii\db\ActiveRecord
 {
 
     public $author_ids;
+    public $imageFile;
+
+    public function behaviors()
+    {
+        return [
+            'saveImage' => [
+                'class' => SaveImageBehavior::className(),
+                'attribute' => "image",
+                'imageAttribute' => "imageFile",
+            ],
+        ];
+    }
 
     /**
      * @inheritdoc
@@ -40,6 +54,7 @@ class Books extends \yii\db\ActiveRecord
             [['year'], 'integer'],
             [['description'], 'string'],
             [['title', 'isbn', 'image'], 'string', 'max' => 255],
+            [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
         ];
     }
 

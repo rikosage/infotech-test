@@ -23,7 +23,7 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'isbn')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'image')->widget(FileInput::classname(), [
+    <?= $form->field($model, 'imageFile')->widget(FileInput::classname(), [
         'options' => ['accept' => 'image/*'],
     ]); ?>
 

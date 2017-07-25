@@ -35,11 +35,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'isbn',
             [
                 'attribute' => 'image',
-                'value' => $model->imagePath,
-                'format' => ['image',['width'=>'100','height'=>'150']],
+                'value' => $model->image ? $model->imagePath : null,
+                'format' => $model->image ? ['image',['width'=>'100','height'=>'150']] : null,
             ],
             [
-                'attribute' => 'author_ids',
+                'attribute' => 'authors',
                 'value' => function($data){
                     $html = "";
                     foreach ($data->authors as $author) {

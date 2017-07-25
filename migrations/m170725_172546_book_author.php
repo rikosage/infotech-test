@@ -60,19 +60,4 @@ class m170725_172546_book_author extends Migration
     {
         $this->dropTable(self::TABLE_NAME);
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m170725_172546_book_author cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }

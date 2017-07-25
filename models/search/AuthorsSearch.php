@@ -2,7 +2,6 @@
 
 namespace app\models\search;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Authors;
@@ -15,7 +14,7 @@ class AuthorsSearch extends Authors
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             [['id'], 'integer'],
@@ -39,7 +38,7 @@ class AuthorsSearch extends Authors
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params) : \yii\data\ActiveDataProvider
     {
         $query = Authors::find();
 

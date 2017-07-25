@@ -40,7 +40,7 @@ class SaveImageBehavior extends Behavior
     /**
      * @inheritDoc
      */
-    public function events()
+    public function events() : array
     {
         return [
             ActiveRecord::EVENT_BEFORE_INSERT => 'saveImageFile',
@@ -58,7 +58,7 @@ class SaveImageBehavior extends Behavior
     }
 
     /**
-     * Сгенерировать имя файла. Итоговое значение будет ИмяМодели-случайная_строка
+     * Сгенерировать имя файла. Итоговое значение будет ИмяМодели-случайная_строка.расширение
      * @return string
      */
     protected function generateFileName() : string
@@ -75,11 +75,13 @@ class SaveImageBehavior extends Behavior
     {
         $this->file = UploadedFile::getInstance($this->owner, $this->imageAttribute);
         if (!$this->file) {
+            $this->owner->image = NULL;
             return false;
         }
         $filename = $this->generateFileName();
         $this->owner->{$this->attribute} = $filename;
 
+        // Если не получилось сохранить - возвращаем false
         try {
             $this->file->saveAs(vsprintf("%s/%s/%s", [
                 Yii::getAlias('@app/web/' . $this->folder),

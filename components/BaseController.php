@@ -48,10 +48,10 @@ class BaseController extends Controller
      * Выполняет поиск модели $className
      * Если модель не найдена - бросает 404
      * @param int $id
-     * @return \yii\db\ActiveRecord the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
+     * @return \yii\db\ActiveRecord Искомая модель
+     * @throws NotFoundHttpException Если модель не найдена
      */
-    protected function findModel(string $className, $id)
+    protected function findModel(string $className, $id) : \yii\db\ActiveRecord
     {
         if (($model = $className::findOne($id)) !== null) {
             return $model;

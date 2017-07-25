@@ -32,7 +32,18 @@ $this->params['breadcrumbs'][] = $this->title;
             'first_name',
             'last_name',
             'middle_name',
+            [
+                'attribute' => 'books',
+                'value' => function($data){
+                    $html = "";
+                    foreach ($data->books as $book) {
+                        $html .= Html::tag("div", $book->title);
+                    }
+                    return $html;
+                },
+                'format' => 'html',
+            ],
         ],
-    ]) ?>
+    ]); ?>
 
 </div>

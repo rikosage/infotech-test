@@ -7,6 +7,10 @@ class m170725_152226_fill_users extends Migration
 
     const TABLE_NAME = "users";
 
+    /**
+     * Список базовых пользователей
+     * @var array
+     */
     private $userList = [
         [
             'username' => "user_with_phone",

@@ -14,8 +14,6 @@ use app\models\search\BooksSearch;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
-use yii\web\NotFoundHttpException;
-
 /**
  * BooksController implements the CRUD actions for Books model.
  */
@@ -90,7 +88,13 @@ class BooksController extends BaseController
         return $this->createOrUpdate($model, "update");
     }
 
-    protected function createOrUpdate($model, $viewName)
+    /**
+     * Поскольку основной функционал для создания и обновления един - выносим в отдельный метод
+     * @param  \yii\db\ActiveRecord $model    Инстанс модели
+     * @param  string               $viewName Вьюшка для рендера
+     * @return mixed
+     */
+    protected function createOrUpdate(\yii\db\ActiveRecord $model, string $viewName)
     {
         $authors = Authors::find()->all();
 
@@ -114,7 +118,7 @@ class BooksController extends BaseController
      */
     public function actionDelete(int $id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel(Books::className(), $id)->delete();
 
         return $this->redirect(['index']);
     }

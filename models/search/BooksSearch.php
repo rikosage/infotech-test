@@ -2,7 +2,6 @@
 
 namespace app\models\search;
 
-use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
 use app\models\Books;
@@ -39,7 +38,7 @@ class BooksSearch extends Books
      *
      * @return ActiveDataProvider
      */
-    public function search($params)
+    public function search($params) : \yii\data\ActiveDataProvider
     {
         $query = Books::find();
 

@@ -109,7 +109,7 @@ class AuthorsController extends BaseController
      */
     public function actionDelete(int $id)
     {
-        $this->findModel($id)->delete();
+        $this->findModel(Authors::className(), $id)->delete();
 
         return $this->redirect(['index']);
     }

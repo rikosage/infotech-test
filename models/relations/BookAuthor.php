@@ -2,7 +2,6 @@
 
 namespace app\models\relations;
 
-use Yii;
 use app\models\Books;
 use app\models\Authors;
 
@@ -20,7 +19,7 @@ class BookAuthor extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
+    public static function tableName() : string
     {
         return 'book_author';
     }
@@ -28,7 +27,7 @@ class BookAuthor extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             [['book_id', 'author_id'], 'required'],
@@ -42,7 +41,7 @@ class BookAuthor extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeLabels() : array
     {
         return [
             'book_id' => 'Book ID',
@@ -53,7 +52,7 @@ class BookAuthor extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAuthor()
+    public function getAuthor() : \yii\db\ActiveQuery
     {
         return $this->hasOne(Authors::className(), ['id' => 'author_id']);
     }
@@ -61,7 +60,7 @@ class BookAuthor extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBook()
+    public function getBook() : \yii\db\ActiveQuery
     {
         return $this->hasOne(Books::className(), ['id' => 'book_id']);
     }

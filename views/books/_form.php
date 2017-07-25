@@ -26,9 +26,9 @@ use yii\helpers\ArrayHelper;
     <?= $form->field($model, 'imageFile')->widget(FileInput::classname(), [
         'options' => ['accept' => 'image/*'],
         'pluginOptions' => [
-            'initialPreviewAsData'=>true,
+            'initialPreviewAsData'=> (bool)$model->image,
             'initialPreview' => [
-                $model->imagePath,
+                $model->image ? $model->imagePath : null,
             ],
         ],
     ]); ?>

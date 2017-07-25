@@ -28,9 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'image',
                 'content' => function($data){
-                    return Html::img($data->imagePath, [
-                        'width' => "120",
-                    ]);
+                    if ($data->image) {
+                        return Html::img($data->imagePath, [
+                            'width' => "120",
+                        ]);
+                    }
                 },
             ],
             'title',

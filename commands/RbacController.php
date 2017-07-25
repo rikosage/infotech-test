@@ -79,23 +79,27 @@ class RbacController extends Controller
      */
     public function actionInit()
     {
+        // Права для сущности книг
         $this->createPermission("books_create",       "Create book");
         $this->createPermission("books_read",         "Read book");
         $this->createPermission("books_update",       "Update book");
         $this->createPermission("books_delete",       "Delete book");
 
+        // Права для сущности авторов
         $this->createPermission("authors_create",     "Create author");
         $this->createPermission("authors_read",       "Read author");
         $this->createPermission("authors_update",     "Update author");
         $this->createPermission("authors_delete",     "Delete author");
         $this->createPermission("authors_subscribe",  "Subscribe author");
 
+        // Создаем роль юзера
         $user = Yii::$app->authManager->createRole(self::USER_ROLE);
         Yii::$app->authManager->add($user);
         $this->setPermissionsForRoles($user, ['books', 'authors'], [
             'create', 'read', 'update', 'delete',
         ]);
 
+        // Создаем роль гостя
         $guest = Yii::$app->authManager->createRole(self::GUEST_ROLE);
         Yii::$app->authManager->add($guest);
         $this->setPermissionsForRoles($guest, ['authors'], ['read', 'subscribe']);

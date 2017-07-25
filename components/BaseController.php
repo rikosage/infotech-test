@@ -3,6 +3,7 @@
 namespace app\components;
 
 use yii\web\Controller;
+use yii\web\NotFoundHttpException;
 
 /**
  * Базовый контроллер, от которого полагается наследовать остальные контроллеры
@@ -41,5 +42,21 @@ class BaseController extends Controller
         }
 
         return $rules;
+    }
+
+    /**
+     * Выполняет поиск модели $className
+     * Если модель не найдена - бросает 404
+     * @param int $id
+     * @return \yii\db\ActiveRecord the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel(string $className, $id)
+    {
+        if (($model = $className::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
     }
 }

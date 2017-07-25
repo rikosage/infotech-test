@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use Yii;
-
 use app\behaviors\SaveImageBehavior;
 use app\models\relations\BookAuthor;
 use yii\db\IntegrityException;
@@ -93,6 +91,15 @@ class Books extends \yii\db\ActiveRecord
      */
     public function afterSave($insert, $changedAttributes)
     {
+
+        $relations = BookAuthor::find()->all();
+
+        foreach ($this->bookAuthors as $relation) {
+            if (!in_array($relation->author_id, $this->author_ids)) {
+                $relation->delete();
+            }
+        }
+
         foreach ($this->author_ids as $author_id) {
             $relation = new BookAuthor;
             $relation->book_id = $this->id;

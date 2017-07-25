@@ -63,7 +63,7 @@ class BooksController extends BaseController
     public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel(Books::className() ,$id),
         ]);
     }
 
@@ -84,9 +84,9 @@ class BooksController extends BaseController
      * @param int $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate(int $id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel(Books::className(), $id);
         return $this->createOrUpdate($model, "update");
     }
 
@@ -112,26 +112,10 @@ class BooksController extends BaseController
      * @param int $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete(int $id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Books model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id
-     * @return Books the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Books::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

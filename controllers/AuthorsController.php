@@ -13,8 +13,6 @@ use app\models\search\AuthorsSearch;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
-use yii\web\NotFoundHttpException;
-
 /**
  * AuthorsController implements the CRUD actions for Authors model.
  */
@@ -59,10 +57,10 @@ class AuthorsController extends BaseController
      * @param int $id
      * @return mixed
      */
-    public function actionView($id) : int
+    public function actionView(int $id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel(Authors::className(), $id),
         ]);
     }
 
@@ -90,9 +88,9 @@ class AuthorsController extends BaseController
      * @param int $id
      * @return mixed
      */
-    public function actionUpdate($id) : int
+    public function actionUpdate(int $id)
     {
-        $model = $this->findModel($id);
+        $model = $this->findModel(Authors::className(), $id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
@@ -109,26 +107,10 @@ class AuthorsController extends BaseController
      * @param int $id
      * @return mixed
      */
-    public function actionDelete($id) : int
+    public function actionDelete(int $id)
     {
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Finds the Authors model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param int $id
-     * @return Authors the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id) : int
-    {
-        if (($model = Authors::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
     }
 }

@@ -3,7 +3,6 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Books;
 
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -101,15 +100,5 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
     }
 }

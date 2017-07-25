@@ -5,7 +5,6 @@ use yii\db\Schema;
 
 class m170725_151403_users extends Migration
 {
-
     const TABLE_NAME = "users";
 
     public function safeUp()

@@ -27,7 +27,10 @@ class Books extends \yii\db\ActiveRecord
     public $author_ids;
     public $imageFile;
 
-    public function behaviors()
+    /**
+     * @inheritDoc
+     */
+    public function behaviors() : array
     {
         return [
             'saveImage' => [
@@ -41,7 +44,7 @@ class Books extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public static function tableName()
+    public static function tableName() : string
     {
         return 'books';
     }
@@ -49,7 +52,7 @@ class Books extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules() : array
     {
         return [
             [['title', 'year', 'isbn', 'author_ids'], 'required'],
@@ -63,7 +66,7 @@ class Books extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
+    public function attributeLabels() : array
     {
         return [
             'id' => 'ID',
@@ -75,12 +78,18 @@ class Books extends \yii\db\ActiveRecord
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterFind()
     {
         $this->author_ids = $this->authors;
         return parent::afterFind();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function afterSave($insert, $changedAttributes)
     {
         foreach ($this->author_ids as $author_id) {

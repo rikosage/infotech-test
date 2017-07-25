@@ -3,16 +3,23 @@
 namespace app\controllers;
 
 use Yii;
+
 use app\models\Authors;
+
 use app\models\search\AuthorsSearch;
+
+use app\components\BaseController;
+
+use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * AuthorsController implements the CRUD actions for Authors model.
  */
-class AuthorsController extends Controller
+class AuthorsController extends BaseController
 {
     /**
      * @inheritdoc
@@ -20,6 +27,10 @@ class AuthorsController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => $this->getAccessRules(),
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

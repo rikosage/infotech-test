@@ -6,8 +6,9 @@ use Yii;
 use app\models\Books;
 use app\models\Authors;
 use app\models\search\BooksSearch;
-use yii\helpers\ArrayHelper;
+use app\components\BaseController;
 
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -15,7 +16,7 @@ use yii\filters\VerbFilter;
 /**
  * BooksController implements the CRUD actions for Books model.
  */
-class BooksController extends Controller
+class BooksController extends BaseController
 {
     /**
      * @inheritdoc
@@ -23,6 +24,10 @@ class BooksController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => $this->getAccessRules(),
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [

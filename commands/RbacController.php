@@ -79,27 +79,27 @@ class RbacController extends Controller
      */
     public function actionInit()
     {
-        $this->createPermission("book_create",       "Create book");
-        $this->createPermission("book_read",         "Read book");
-        $this->createPermission("book_update",       "Update book");
-        $this->createPermission("book_delete",       "Delete book");
+        $this->createPermission("books_create",       "Create book");
+        $this->createPermission("books_read",         "Read book");
+        $this->createPermission("books_update",       "Update book");
+        $this->createPermission("books_delete",       "Delete book");
 
-        $this->createPermission("author_create",     "Create author");
-        $this->createPermission("author_read",       "Read author");
-        $this->createPermission("author_update",     "Update author");
-        $this->createPermission("author_delete",     "Delete author");
-        $this->createPermission("author_subscribe",  "Subscribe author");
+        $this->createPermission("authors_create",     "Create author");
+        $this->createPermission("authors_read",       "Read author");
+        $this->createPermission("authors_update",     "Update author");
+        $this->createPermission("Authors_delete",     "Delete author");
+        $this->createPermission("authors_subscribe",  "Subscribe author");
 
         $user = Yii::$app->authManager->createRole(self::USER_ROLE);
         Yii::$app->authManager->add($user);
-        $this->setPermissionsForRoles($user, ['book', 'author'], [
+        $this->setPermissionsForRoles($user, ['books', 'authors'], [
             'create', 'read', 'update', 'delete',
         ]);
 
         $guest = Yii::$app->authManager->createRole(self::GUEST_ROLE);
         Yii::$app->authManager->add($guest);
-        $this->setPermissionsForRoles($guest, ['author'], ['read', 'subscribe']);
-        $this->setPermissionsForRoles($guest, ['book'], ['read']);
+        $this->setPermissionsForRoles($guest, ['authors'], ['read', 'subscribe']);
+        $this->setPermissionsForRoles($guest, ['books'], ['read']);
 
         $this->setRolesForUser();
 

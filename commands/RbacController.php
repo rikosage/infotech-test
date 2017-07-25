@@ -5,12 +5,30 @@ namespace app\commands;
 use Yii;
 use yii\console\Controller;
 
+/**
+ * Базовый класс для инициализации RBAC
+ */
 class RbacController extends Controller
 {
 
+    /**
+     * Пользователь
+     * @var string
+     */
     const USER_ROLE = "user";
+
+    /**
+     * Гость
+     * @var string
+     */
     const GUEST_ROLE = "guest";
 
+    /**
+     * Создает право на действие
+     * @param  string $name        Имя действия
+     * @param  string $description Описание
+     * @return void
+     */
     private function createPermission(string $name, string $description)
     {
         $permission = Yii::$app->authManager->createPermission($name);
@@ -18,6 +36,14 @@ class RbacController extends Controller
         Yii::$app->authManager->add($permission);
     }
 
+    /**
+     * Устанавливает соответствие для роли и права.
+     * Право будет получено как %$entity%_%action%
+     * @param \yii\rbac\Role  $role     Роль
+     * @param array           $entities Список сущностей, к которым привяжем
+     * @param array           $actions  Список действий
+     * @return void
+     */
     private function setPermissionsForRoles(\yii\rbac\Role $role, array $entities, array $actions)
     {
         foreach ($entities as $entity) {
@@ -29,6 +55,10 @@ class RbacController extends Controller
         }
     }
 
+    /**
+     * Выполняет инициализацию RBAC и создает базовые сущности.
+     * @return void
+     */
     public function actionInit()
     {
         $this->createPermission("book_create",       "Create book");
@@ -56,6 +86,10 @@ class RbacController extends Controller
         echo "Created RBAC entities!\n";
     }
 
+    /**
+     * Выполняет откат сущностей RBAC
+     * @return void
+     */
     public function actionRollback()
     {
         Yii::$app->authManager->removeAll();

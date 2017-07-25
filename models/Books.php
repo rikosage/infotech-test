@@ -75,6 +75,12 @@ class Books extends \yii\db\ActiveRecord
         ];
     }
 
+    public function afterFind()
+    {
+        $this->author_ids = $this->authors;
+        return parent::afterFind();
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         foreach ($this->author_ids as $author_id) {

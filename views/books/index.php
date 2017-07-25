@@ -29,7 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'year',
             'description:ntext',
             'isbn',
-            // 'image',
+            [
+                'attribute' => 'author_ids',
+                'content' => function($data){
+                    $html = "";
+                    foreach ($data->authors as $author) {
+                        $html .= Html::tag("div", $author->name);
+                    }
+                    return $html;
+                },
+            ],
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

@@ -31,7 +31,6 @@ use yii\helpers\ArrayHelper;
                 $model->imagePath,
             ],
         ],
-
     ]); ?>
 
     <?= $form->field($model, "author_ids")->widget(Select2::className(), [

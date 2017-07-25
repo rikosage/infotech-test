@@ -85,8 +85,6 @@ class BooksController extends Controller
     protected function createOrUpdate($model, $viewName)
     {
         $authors = Authors::find()->all();
-        $model->author_ids = $model->authors;
-        $model->imageFile = $model->imagePath;
 
         if (Yii::$app->request->isPost) {
             $model->load(Yii::$app->request->post());

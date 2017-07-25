@@ -27,6 +27,10 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+                    [
+                        'actions' => ['login', 'error'],
+                        'allow' => true,
+                    ],
                 ],
             ],
             'verbs' => [
@@ -47,11 +51,15 @@ class SiteController extends Controller
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
         ];
+    }
+
+    public function beforeAction($action)
+    {
+        if ($this->action) {
+            # code...
+        }
+        return parent::beforeAction($action);
     }
 
     /**
@@ -61,7 +69,6 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        var_dump(Yii::$app->user->getIdentity());exit;
         return $this->render('index');
     }
 
@@ -95,24 +102,6 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return Response|string
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->contact(Yii::$app->params['adminEmail'])) {
-            Yii::$app->session->setFlash('contactFormSubmitted');
-
-            return $this->refresh();
-        }
-        return $this->render('contact', [
-            'model' => $model,
-        ]);
     }
 
     /**

@@ -25,6 +25,13 @@ use yii\helpers\ArrayHelper;
 
     <?= $form->field($model, 'imageFile')->widget(FileInput::classname(), [
         'options' => ['accept' => 'image/*'],
+        'pluginOptions' => [
+            'initialPreviewAsData'=>true,
+            'initialPreview' => [
+                $model->imagePath,
+            ],
+        ],
+
     ]); ?>
 
     <?= $form->field($model, "author_ids")->widget(Select2::className(), [

@@ -74,6 +74,9 @@ class SaveImageBehavior extends Behavior
     public function saveImageFile() : bool
     {
         $this->file = UploadedFile::getInstance($this->owner, $this->imageAttribute);
+        if (!$this->file) {
+            return false;
+        }
         $filename = $this->generateFileName();
         $this->owner->{$this->attribute} = $filename;
 

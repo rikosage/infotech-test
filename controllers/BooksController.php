@@ -6,6 +6,8 @@ use Yii;
 use app\models\Books;
 use app\models\Authors;
 use app\models\search\BooksSearch;
+use yii\helpers\ArrayHelper;
+
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -65,16 +67,7 @@ class BooksController extends Controller
     public function actionCreate()
     {
         $model = new Books();
-        $authors = Authors::find()->all();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-                'authors' => $authors,
-            ]);
-        }
+        return $this->createOrUpdate($model, "create");
     }
 
     /**
@@ -86,16 +79,25 @@ class BooksController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-        $authors = Authors::find()->all();
+        return $this->createOrUpdate($model, "update");
+    }
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+    protected function createOrUpdate($model, $viewName)
+    {
+        $authors = Authors::find()->all();
+        $model->author_ids = $model->authors;
+        $model->imageFile = $model->imagePath;
+
+        if (Yii::$app->request->isPost) {
+            $model->load(Yii::$app->request->post());
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-                'authors' => $authors,
-            ]);
         }
+
+        return $this->render('update', [
+            'model' => $model,
+            'authors' => $authors,
+        ]);
     }
 
     /**

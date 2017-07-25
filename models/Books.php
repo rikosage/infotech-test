@@ -5,6 +5,8 @@ namespace app\models;
 use Yii;
 
 use app\behaviors\SaveImageBehavior;
+use app\models\relations\BookAuthor;
+use yii\db\IntegrityException;
 
 /**
  * This is the model class for table "books".
@@ -71,6 +73,22 @@ class Books extends \yii\db\ActiveRecord
             'isbn' => 'Isbn',
             'image' => 'Image',
         ];
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        foreach ($this->author_ids as $author_id) {
+            $relation = new BookAuthor;
+            $relation->book_id = $this->id;
+            $relation->author_id = $author_id;
+            try {
+                $relation->save();
+            } catch (IntegrityException $e) {
+                return parent::afterSave($insert, $changedAttributes);
+            }
+        }
+
+        return parent::afterSave($insert, $changedAttributes);
     }
 
     /**

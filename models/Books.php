@@ -104,11 +104,10 @@ class Books extends \yii\db\ActiveRecord
             $relation = new BookAuthor;
             $relation->book_id = $this->id;
             $relation->author_id = $author_id;
-            try {
-                $relation->save();
-            } catch (IntegrityException $e) {
-                return parent::afterSave($insert, $changedAttributes);
-            }
+            $relation->save();
+
+            return parent::afterSave($insert, $changedAttributes);
+
         }
 
         return parent::afterSave($insert, $changedAttributes);

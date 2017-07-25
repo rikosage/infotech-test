@@ -4,12 +4,24 @@ namespace app\components;
 
 use yii\web\Controller;
 
+/**
+ * Базовый контроллер, от которого полагается наследовать остальные контроллеры
+ */
 class BaseController extends Controller
 {
 
-    protected $actions = ['create', 'index', 'update', 'delete'];
+    /**
+     * Стандартные экшены
+     * @var array
+     */
+    protected $actions = ['create', 'index', "view", 'update', 'delete'];
 
-    protected function getAccessRules()
+    /**
+     * Получаем список стандартных правил доступа.
+     * Предполагается, что в наследниках переопределяется через array_merge при необходимости
+     * @return array
+     */
+    protected function getAccessRules() : array
     {
         $rules = [
             [
@@ -19,7 +31,7 @@ class BaseController extends Controller
         ];
 
         foreach ($this->actions as $action) {
-            $permission = $action === "index" ? "read" : $action;
+            $permission = ($action === "index" || $action == "view") ? "read" : $action;
 
             $rules[] = [
                 'allow' => true,

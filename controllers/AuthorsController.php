@@ -4,16 +4,15 @@ namespace app\controllers;
 
 use Yii;
 
+use app\components\BaseController;
+
 use app\models\Authors;
 
 use app\models\search\AuthorsSearch;
 
-use app\components\BaseController;
-
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
-use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
 /**
@@ -24,7 +23,7 @@ class AuthorsController extends BaseController
     /**
      * @inheritdoc
      */
-    public function behaviors()
+    public function behaviors() : array
     {
         return [
             'access' => [
@@ -60,7 +59,7 @@ class AuthorsController extends BaseController
      * @param int $id
      * @return mixed
      */
-    public function actionView($id)
+    public function actionView($id) : int
     {
         return $this->render('view', [
             'model' => $this->findModel($id),
@@ -91,7 +90,7 @@ class AuthorsController extends BaseController
      * @param int $id
      * @return mixed
      */
-    public function actionUpdate($id)
+    public function actionUpdate($id) : int
     {
         $model = $this->findModel($id);
 
@@ -110,7 +109,7 @@ class AuthorsController extends BaseController
      * @param int $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id) : int
     {
         $this->findModel($id)->delete();
 
@@ -124,7 +123,7 @@ class AuthorsController extends BaseController
      * @return Authors the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id) : int
     {
         if (($model = Authors::findOne($id)) !== null) {
             return $model;

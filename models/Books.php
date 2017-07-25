@@ -70,11 +70,12 @@ class Books extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'year' => 'Year',
-            'description' => 'Description',
+            'title' => 'Название',
+            'year' => 'Год выпуска',
+            'description' => 'Описание',
             'isbn' => 'Isbn',
-            'image' => 'Image',
+            'image' => 'Обложка',
+            'author_ids' => 'Авторы',
         ];
     }
 

@@ -34,10 +34,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'description:ntext',
             'isbn',
             [
-                'attribute'=>'image',
-                'value'=>$model->imagePath,
+                'attribute' => 'image',
+                'value' => $model->imagePath,
                 'format' => ['image',['width'=>'100','height'=>'150']],
             ],
+            [
+                'attribute' => 'author_ids',
+                'value' => function($data){
+                    $html = "";
+                    foreach ($data->authors as $author) {
+                        $html .= Html::tag("div", $author->name);
+                    }
+                    return $html;
+                },
+                'format' => "html",
+            ]
 
         ],
     ]) ?>

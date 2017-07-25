@@ -3,15 +3,18 @@
 namespace app\controllers;
 
 use Yii;
-use app\models\Books;
-use app\models\Authors;
-use app\models\search\BooksSearch;
+
 use app\components\BaseController;
 
-use yii\filters\AccessControl;
-use yii\web\Controller;
-use yii\web\NotFoundHttpException;
+use app\models\Books;
+use app\models\Authors;
+
+use app\models\search\BooksSearch;
+
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
+
+use yii\web\NotFoundHttpException;
 
 /**
  * BooksController implements the CRUD actions for Books model.

@@ -64,7 +64,7 @@ class RbacController extends Controller
     {
         $users = User::find()->all();
         foreach ($users as $user) {
-            $roleName = $user->username === "moderator"
+            $roleName = ($user->username === "moderator")
                 ? self::USER_ROLE
                 : self::GUEST_ROLE;
 
@@ -87,7 +87,7 @@ class RbacController extends Controller
         $this->createPermission("authors_create",     "Create author");
         $this->createPermission("authors_read",       "Read author");
         $this->createPermission("authors_update",     "Update author");
-        $this->createPermission("Authors_delete",     "Delete author");
+        $this->createPermission("authors_delete",     "Delete author");
         $this->createPermission("authors_subscribe",  "Subscribe author");
 
         $user = Yii::$app->authManager->createRole(self::USER_ROLE);
@@ -103,7 +103,7 @@ class RbacController extends Controller
 
         $this->setRolesForUser();
 
-        echo "Created RBAC entities!\n";
+        echo "Created RBAC entities.\n";
     }
 
 
@@ -115,6 +115,6 @@ class RbacController extends Controller
     public function actionRollback()
     {
         Yii::$app->authManager->removeAll();
-        echo "All RBAC entities successfully removed!\n";
+        echo "All RBAC entities successfully removed.\n";
     }
 }

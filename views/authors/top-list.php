@@ -1,3 +1,4 @@
+<?php if ($selection): ?>
 <h1>Лидеры за <?= $year ?> год:</h1>
 <table class="table">
     <thead>
@@ -19,3 +20,6 @@
         <?php endforeach; ?>
     </tbody>
 </table>
+<?php else: ?>
+    <h1>Авторы не выпускали книг в <?= $year ?> году</h1>
+<?php endif; ?>

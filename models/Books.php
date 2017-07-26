@@ -4,6 +4,7 @@ namespace app\models;
 
 use app\behaviors\ImageModelBehavior;
 use app\models\relations\BookAuthor;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "books".
@@ -53,7 +54,7 @@ class Books extends \yii\db\ActiveRecord
     {
         return [
             [['title', 'year', 'isbn', 'author_ids'], 'required'],
-            [['year'], 'integer'],
+            [['year'], 'integer', 'min' => 0, 'max' => date("Y")],
             [['description'], 'string'],
             [['title', 'isbn', 'image'], 'string', 'max' => 255],
             [['imageFile'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg, jpeg'],
@@ -72,6 +73,7 @@ class Books extends \yii\db\ActiveRecord
             'description' => 'Описание',
             'isbn' => 'Isbn',
             'image' => 'Обложка',
+            'authors' => 'Авторы',
             'author_ids' => 'Авторы',
         ];
     }

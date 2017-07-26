@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use app\models\relations\BookAuthor;
 
 /**
  * This is the model class for table "authors".
@@ -17,6 +18,7 @@ use Yii;
  */
 class Authors extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -34,6 +36,24 @@ class Authors extends \yii\db\ActiveRecord
             [['first_name', 'last_name'], 'required'],
             [['first_name', 'last_name', 'middle_name'], 'string', 'max' => 255],
         ];
+    }
+
+    public static function findTopByYear($year)
+    {
+        $relationTable = BookAuthor::tableName();
+        $booksTable = Books::tableName();
+
+        $subQuery = BookAuthor::find()
+            ->select(["$relationTable.author_id", "COUNT(id) AS bookCount"])
+            ->join("INNER JOIN", $booksTable, "$relationTable.book_id = " . $booksTable.".id")
+            ->where("$booksTable.year = $year")
+            ->groupBy("$relationTable.author_id");
+
+        return self::find()
+            ->join("INNER JOIN", ['topList' => $subQuery], self::tableName().".id = topList.author_id")
+            ->orderBy(["topList.bookCount" => SORT_DESC])
+            ->limit(10)
+            ->all();
     }
 
     /**
@@ -54,7 +74,7 @@ class Authors extends \yii\db\ActiveRecord
         return vsprintf("%s %s%s", [
             $this->first_name,
             $this->middle_name ? $this->middle_name . " " : null,
-            $this->last_name 
+            $this->last_name
         ]);
     }
 

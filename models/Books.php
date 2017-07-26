@@ -4,7 +4,6 @@ namespace app\models;
 
 use app\behaviors\ImageModelBehavior;
 use app\models\relations\BookAuthor;
-use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "books".
@@ -31,7 +30,7 @@ class Books extends \yii\db\ActiveRecord
     public function behaviors() : array
     {
         return [
-            'mageModel' => [
+            'imageModel' => [
                 'class' => ImageModelBehavior::className(),
                 'attribute' => "image",
                 'imageAttribute' => "imageFile",

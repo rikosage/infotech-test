@@ -4,6 +4,9 @@ namespace app\models\relations;
 
 use app\models\Books;
 use app\models\Authors;
+use app\models\User;
+use app\components\Subscriber;
+use app\components\SmsSender;
 
 /**
  * This is the model class for table "book_author".
@@ -16,6 +19,7 @@ use app\models\Authors;
  */
 class BookAuthor extends \yii\db\ActiveRecord
 {
+
     /**
      * @inheritdoc
      */
@@ -63,5 +67,31 @@ class BookAuthor extends \yii\db\ActiveRecord
     public function getBook() : \yii\db\ActiveQuery
     {
         return $this->hasOne(Books::className(), ['id' => 'book_id']);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        if (!$insert) {
+            return parent::afterSave($insert, $changedAttributes);
+        }
+
+        $message = "У автора {$this->author->name} вышла новая книга: {$this->book->title}";
+
+        $records = Subscribe::find()->where(['author_id' => $this->author_id])->all();
+
+        foreach ($records as $record) {
+            $user = User::find()->where(['id' => $record->user_id])->one();
+            (new Subscriber([
+                'subject' => "{$this->author->name}: Новая книга!",
+                'message' => $message,
+                'user' => $user,
+            ]))->send();
+
+            if ($user->phone) {
+                (new SmsSender(['message' => $message, 'phone' => $user->phone]));
+            }
+        }
+
+        return parent::afterSave($insert, $changedAttributes);
     }
 }

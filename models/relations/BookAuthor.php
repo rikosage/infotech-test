@@ -89,7 +89,7 @@ class BookAuthor extends \yii\db\ActiveRecord
             (new Subscriber([
                 'subject' => "{$this->author->name}: Новая книга!",
                 'message' => $message,
-                'user' => $user->email,
+                'email' => $user->email,
             ]))->send();
 
             if ($user->phone) {

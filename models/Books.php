@@ -114,9 +114,6 @@ class Books extends \yii\db\ActiveRecord
             $relation->book_id = $this->id;
             $relation->author_id = $author_id;
             $relation->save();
-
-            return parent::afterSave($insert, $changedAttributes);
-
         }
 
         return parent::afterSave($insert, $changedAttributes);

@@ -101,6 +101,7 @@ class BooksController extends BaseController
         if (Yii::$app->request->isPost) {
             $model->load(Yii::$app->request->post());
             $model->save();
+            Yii::$app->session->setFlash("success", "Успешно");
             return $this->redirect(['view', 'id' => $model->id]);
         }
 
@@ -119,6 +120,7 @@ class BooksController extends BaseController
     public function actionDelete(int $id)
     {
         $this->findModel(Books::className(), $id)->delete();
+        Yii::$app->session->setFlash("success", "Вы успешно подписаны на обновления");
 
         return $this->redirect(['index']);
     }

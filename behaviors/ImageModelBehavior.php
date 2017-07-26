@@ -76,7 +76,6 @@ class ImageModelBehavior extends Behavior
     {
         $this->file = UploadedFile::getInstance($this->owner, $this->imageAttribute);
         if (!$this->file) {
-            $this->owner->image = NULL;
             return false;
         }
         $filename = $this->generateFileName();

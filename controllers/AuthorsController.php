@@ -8,6 +8,8 @@ use app\components\BaseController;
 
 use app\models\Authors;
 
+use app\models\relations\Subscribe;
+
 use app\models\search\AuthorsSearch;
 
 use app\models\forms\TopAuthorsListForm;
@@ -29,11 +31,18 @@ class AuthorsController extends BaseController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'rules' => array_merge([[
-                    'allow' => true,
-                    'actions' => ['top-list'],
-                    'roles' => ['@'],
-                ]], $this->getAccessRules()),
+                'rules' => array_merge([
+                    [
+                        'allow' => true,
+                        'actions' => ['top-list'],
+                        'roles' => ['@'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['subscribe'],
+                        'roles' => ['authors_subscribe'],
+                    ]
+                ], $this->getAccessRules()),
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -84,6 +93,7 @@ class AuthorsController extends BaseController
         $model = new Authors();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash("success", "Успешно");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -103,6 +113,7 @@ class AuthorsController extends BaseController
         $model = $this->findModel(Authors::className(), $id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            Yii::$app->session->setFlash("success", "Успешно");
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -121,6 +132,8 @@ class AuthorsController extends BaseController
     {
         $this->findModel(Authors::className(), $id)->delete();
 
+        Yii::$app->session->setFlash("success", "Автор удален");
+
         return $this->redirect(['index']);
     }
 
@@ -129,7 +142,8 @@ class AuthorsController extends BaseController
      * Год получается из POST-запроса
      * @return mixed
      */
-    public function actionTopList(){
+    public function actionTopList()
+    {
         $model = new TopAuthorsListForm;
         $model->load(Yii::$app->request->post());
 
@@ -142,5 +156,22 @@ class AuthorsController extends BaseController
             'selection' => $selection,
             'year' => $model->year,
         ]);
+    }
+
+    /**
+     * Экшен для подписки пользователя на новости
+     * @param  int $id    ID Автора
+     * @return mixed
+     */
+    public function actionSubscribe(int $id)
+    {
+        $model = new Subscribe;
+        $model->user_id = Yii::$app->user->id;
+        $model->author_id = $id;
+        $model->save();
+
+        Yii::$app->session->setFlash("success", "Вы успешно подписаны на обновления");
+
+        return $this->redirect(['index']);
     }
 }

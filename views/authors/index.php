@@ -16,8 +16,15 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Authors', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Создать автора', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <p>
+        <?= $this->render("_top-list-form", [
+            'model' => $model,
+        ]) ?>
+    </p>
+    <?= Html::a('ТОП 10 авторов', ['topList'], ['class' => 'btn btn-primary']) ?>
+
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,

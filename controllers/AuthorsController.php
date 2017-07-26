@@ -10,6 +10,8 @@ use app\models\Authors;
 
 use app\models\search\AuthorsSearch;
 
+use app\models\forms\TopAuthorsListForm;
+
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 
@@ -23,10 +25,15 @@ class AuthorsController extends BaseController
      */
     public function behaviors() : array
     {
+
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'rules' => $this->getAccessRules(),
+                'rules' => array_merge([[
+                    'allow' => true,
+                    'actions' => ['top-list'],
+                    'roles' => ['@'],
+                ]], $this->getAccessRules()),
             ],
             'verbs' => [
                 'class' => VerbFilter::className(),
@@ -46,7 +53,10 @@ class AuthorsController extends BaseController
         $searchModel = new AuthorsSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
+        $model = new TopAuthorsListForm;
+
         return $this->render('index', [
+            'model' => $model,
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
         ]);
@@ -112,5 +122,20 @@ class AuthorsController extends BaseController
         $this->findModel(Authors::className(), $id)->delete();
 
         return $this->redirect(['index']);
+    }
+
+    public function actionTopList(){
+        $model = new TopAuthorsListForm;
+        $model->load(Yii::$app->request->post());
+
+        $selection = [];
+        if ($model->validate()) {
+            $selection = Authors::findTopByYear($model->year);
+        }
+
+        return $this->render("top-list", [
+            'selection' => $selection,
+            'year' => $model->year,
+        ]);
     }
 }

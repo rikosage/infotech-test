@@ -124,6 +124,11 @@ class AuthorsController extends BaseController
         return $this->redirect(['index']);
     }
 
+    /**
+     * Экшен для получения автором, выпустивших больше всего книг за год.
+     * Год получается из POST-запроса
+     * @return mixed
+     */
     public function actionTopList(){
         $model = new TopAuthorsListForm;
         $model->load(Yii::$app->request->post());

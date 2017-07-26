@@ -2,9 +2,11 @@
 
 namespace app\models\forms;
 
-use Yii;
 use yii\base\Model;
 
+/**
+ * Модель для формы топ-списка авторов
+ */
 class TopAuthorsListForm extends Model
 {
     public $year;
@@ -21,6 +23,9 @@ class TopAuthorsListForm extends Model
         ];
     }
 
+    /**
+     * @inheritDoc
+     */
     public function attributeLabels()
     {
         return [

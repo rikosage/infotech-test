@@ -2,7 +2,6 @@
 
 namespace app\models;
 
-use Yii;
 use app\models\relations\BookAuthor;
 
 /**
@@ -38,7 +37,12 @@ class Authors extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function findTopByYear($year)
+    /**
+     * Получить 10 авторов, лидирующих по количеству книг за year год
+     * @param  int $year    Год для выборки
+     * @return array
+     */
+    public static function findTopByYear(int $year) : array
     {
         $relationTable = BookAuthor::tableName();
         $booksTable = Books::tableName();
@@ -69,7 +73,11 @@ class Authors extends \yii\db\ActiveRecord
         ];
     }
 
-    public function getName()
+    /**
+     * Возвращает полное имя автора
+     * @return string
+     */
+    public function getName() : string
     {
         return vsprintf("%s %s%s", [
             $this->first_name,

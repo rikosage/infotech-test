@@ -69,6 +69,11 @@ class BookAuthor extends \yii\db\ActiveRecord
         return $this->hasOne(Books::className(), ['id' => 'book_id']);
     }
 
+    /**
+     * После сохранения отношения - отправляем подписанным пользователям email
+     * и смс при необходимости
+     * @inheritDoc
+     */
     public function afterSave($insert, $changedAttributes)
     {
         if (!$insert) {
@@ -84,7 +89,7 @@ class BookAuthor extends \yii\db\ActiveRecord
             (new Subscriber([
                 'subject' => "{$this->author->name}: Новая книга!",
                 'message' => $message,
-                'user' => $user,
+                'user' => $user->email,
             ]))->send();
 
             if ($user->phone) {

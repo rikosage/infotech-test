@@ -20,8 +20,16 @@ use app\models\relations\BookAuthor;
  */
 class Books extends \yii\db\ActiveRecord
 {
-
+    /**
+     * Вспомогательное свойство для списка авторов
+     * @var array
+     */
     public $author_ids;
+
+    /**
+     * Вспомогательное свойство для загрузки изображения
+     * @var string
+     */
     public $imageFile;
 
     /**
@@ -87,6 +95,7 @@ class Books extends \yii\db\ActiveRecord
     }
 
     /**
+     * После сохранения обновляем отношения с авторами
      * @inheritdoc
      */
     public function afterSave($insert, $changedAttributes)

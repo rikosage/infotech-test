@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\Authors */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Authors', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Авторы', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="authors-view">

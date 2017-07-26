@@ -23,7 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'model' => $model,
         ]) ?>
     </p>
-    <?= Html::a('ТОП 10 авторов', ['topList'], ['class' => 'btn btn-primary']) ?>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

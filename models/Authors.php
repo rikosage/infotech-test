@@ -89,7 +89,7 @@ class Authors extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBookAuthors()
+    public function getBookAuthors() : \yii\db\ActiveQuery
     {
         return $this->hasMany(BookAuthor::className(), ['author_id' => 'id']);
     }
@@ -97,7 +97,7 @@ class Authors extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getBooks()
+    public function getBooks() : \yii\db\ActiveQuery
     {
         return $this->hasMany(Books::className(), ['id' => 'book_id'])->viaTable('book_author', ['author_id' => 'id']);
     }

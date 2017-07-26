@@ -2,9 +2,8 @@
 
 namespace app\models;
 
-use app\behaviors\SaveImageBehavior;
+use app\behaviors\ImageModelBehavior;
 use app\models\relations\BookAuthor;
-use yii\db\IntegrityException;
 
 /**
  * This is the model class for table "books".
@@ -31,8 +30,8 @@ class Books extends \yii\db\ActiveRecord
     public function behaviors() : array
     {
         return [
-            'saveImage' => [
-                'class' => SaveImageBehavior::className(),
+            'mageModel' => [
+                'class' => ImageModelBehavior::className(),
                 'attribute' => "image",
                 'imageAttribute' => "imageFile",
             ],

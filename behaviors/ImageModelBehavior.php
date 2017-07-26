@@ -10,7 +10,7 @@ use yii\web\UploadedFile;
 /**
  * Поведение для удобного сохранения изображений в модели.
  */
-class SaveImageBehavior extends Behavior
+class ImageModelBehavior extends Behavior
 {
 
     /**
@@ -45,6 +45,7 @@ class SaveImageBehavior extends Behavior
         return [
             ActiveRecord::EVENT_BEFORE_INSERT => 'saveImageFile',
             ActiveRecord::EVENT_BEFORE_UPDATE => 'saveImageFile',
+            ActiveRecord::EVENT_AFTER_DELETE => 'deleteImageFile',
         ];
     }
 
@@ -91,6 +92,17 @@ class SaveImageBehavior extends Behavior
             return true;
         } catch (\Exception $e) {
             return false;
+        }
+    }
+
+    /**
+     * Удаляет изображение,связанное с моделью, после удаления записи из БД
+     * @return void
+     */
+    public function deleteImageFile()
+    {
+        if ($this->owner->{$this->attribute}) {
+            unlink(Yii::getAlias("@app/web") . $this->imagePath);
         }
     }
 

@@ -16,7 +16,6 @@ use app\models\Authors;
  */
 class BookAuthor extends \yii\db\ActiveRecord
 {
-
     /**
      * @inheritdoc
      */

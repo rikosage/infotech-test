@@ -16,7 +16,7 @@ class m170726_193040_subscribe extends Migration
      */
     private function setForeignKeyForAuthors()
     {
-        $this->createIndex("book_id-index", self::TABLE_NAME, "author_id");
+        $this->createIndex("author_id-index", self::TABLE_NAME, "author_id");
         $this->addForeignKey(
             "subscribe-author-fk",
             self::TABLE_NAME,
@@ -32,7 +32,7 @@ class m170726_193040_subscribe extends Migration
      */
     private function setForeignKeyForUsers()
     {
-        $this->createIndex("book_id-index", self::TABLE_NAME, "user_id");
+        $this->createIndex("user_id-index", self::TABLE_NAME, "user_id");
         $this->addForeignKey(
             "subscribe-user-fk",
             self::TABLE_NAME,
@@ -50,6 +50,9 @@ class m170726_193040_subscribe extends Migration
             'author_id' => Schema::TYPE_INTEGER . " NOT NULL",
         ]);
         $this->addPrimaryKey('subscribe-pk', self::TABLE_NAME, ['user_id', 'author_id']);
+
+        $this->setForeignKeyForAuthors();
+        $this->setForeignKeyForUsers();
     }
 
     public function safeDown()

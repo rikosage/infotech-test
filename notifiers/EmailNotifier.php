@@ -23,7 +23,7 @@ class EmailNotifier extends BaseNotifier
     {
         return Yii::$app->mailer->compose()
             ->setFrom(Yii::$app->params["adminEmail"])
-            ->setTo($this->email)
+            ->setTo($this->target)
             ->setSubject($this->subject)
             ->setTextBody($this->message)
             ->send();

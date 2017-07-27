@@ -25,6 +25,6 @@ abstract class BaseNotifier extends Component
      * Отправка сообщения
      * @return bool TRUE, если сообщение отправлено
      */
-    public function send() : bool;
+    abstract public function send() : bool;
 
 }

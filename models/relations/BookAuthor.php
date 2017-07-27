@@ -87,15 +87,24 @@ class BookAuthor extends \yii\db\ActiveRecord
 
         foreach ($records as $record) {
             $user = User::find()->where(['id' => $record->user_id])->one();
+
+            // Отправляем Email
             (new EmailNotifier([
                 'subject' => "{$this->author->name}: Новая книга!",
                 'message' => $message,
                 'target' => $user->email,
             ]))->send();
 
-            if ($user->phone) {
-                (new SmsNotifier(['message' => $message, 'target' => $user->phone]));
+            if (!$user->phone) {
+                continue;
             }
+
+            // Отправляем SMS
+            (new SmsNotifier([
+                'message' => $message,
+                'target' => $user->phone
+            ]))->send();
+
         }
 
         return parent::afterSave($insert, $changedAttributes);

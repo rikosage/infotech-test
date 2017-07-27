@@ -3,6 +3,8 @@
 namespace app\behaviors;
 
 use Yii;
+use app\exceptions\PermissionDeniedException;
+
 use yii\base\Behavior;
 use yii\db\ActiveRecord;
 use yii\web\UploadedFile;
@@ -69,11 +71,36 @@ class ImageModelBehavior extends Behavior
     }
 
     /**
+     * Автоматически создает директорию для сохранения изображений.
+     * Бросает исключение, если на это не хватает прав
+     * @return void
+     * @throws PermissionDeniedException Если не получается создать папку из-за отсутствия прав
+     */
+    private function createFolderIfNotExists()
+    {
+        $path = vsprintf("%s/%s", [
+            Yii::getAlias('@app/web/' . $this->folder),
+            strtolower($this->getShortOwnerClassName()),
+        ]);
+
+        if (!file_exists($path)) {
+            try {
+                mkdir($path, 0777, true);
+            } catch (\yii\base\ErrorException $e) {
+                throw new PermissionDeniedException("Permission denied: cannot create the folder $path");
+            }
+
+        }
+    }
+
+    /**
      * Сохраняет изображение в папку и назначает значение переданной модели.
      * @return bool TRUE, если сохранение успешно
      */
     public function saveImageFile() : bool
     {
+        $this->createFolderIfNotExists();
+
         $this->file = UploadedFile::getInstance($this->owner, $this->imageAttribute);
         if (!$this->file) {
             return false;

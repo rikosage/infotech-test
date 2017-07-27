@@ -17,7 +17,6 @@ use app\models\relations\BookAuthor;
  */
 class Authors extends \yii\db\ActiveRecord
 {
-
     /**
      * @inheritdoc
      */
@@ -47,6 +46,7 @@ class Authors extends \yii\db\ActiveRecord
         $relationTable = BookAuthor::tableName();
         $booksTable = Books::tableName();
 
+        // Подзапрос для выборки книг по годам
         $subQuery = BookAuthor::find()
             ->select(["$relationTable.author_id", "COUNT(id) AS bookCount"])
             ->join("INNER JOIN", $booksTable, "$relationTable.book_id = " . $booksTable.".id")

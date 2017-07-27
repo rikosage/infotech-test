@@ -45,7 +45,7 @@ class ImageModelBehavior extends Behavior
         return [
             ActiveRecord::EVENT_BEFORE_INSERT => 'saveImageFile',
             ActiveRecord::EVENT_BEFORE_UPDATE => 'saveImageFile',
-            ActiveRecord::EVENT_AFTER_DELETE => 'deleteImageFile',
+            ActiveRecord::EVENT_AFTER_DELETE  => 'deleteImageFile',
         ];
     }
 

@@ -1,16 +1,15 @@
 <?php
 
-namespace app\components;
+namespace app\notifiers;
 
 use Yii;
-use yii\base\Component;
+use app\components\BaseNotifier;
 
 /**
  * Класс для отправки писем.
  */
-class Subscriber extends Component
+class EmailNotifier extends BaseNotifier
 {
-
     /**
      * Тема письма
      * @var string
@@ -18,20 +17,7 @@ class Subscriber extends Component
     public $subject;
 
     /**
-     * Сообщение
-     * @var string
-     */
-    public $message;
-
-    /**
-     * Email для отправки
-     * @var string
-     */
-    public $email;
-
-    /**
-     * Отправка сообщения
-     * @return bool TRUE, если сообщение отправлено
+     * @inheritDoc
      */
     public function send() : bool
     {

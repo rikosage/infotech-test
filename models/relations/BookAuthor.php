@@ -5,8 +5,9 @@ namespace app\models\relations;
 use app\models\Books;
 use app\models\Authors;
 use app\models\User;
-use app\components\Subscriber;
-use app\components\SmsSender;
+
+use app\notifiers\SmsNotifier;
+use app\notifiers\EmailNotifier;
 
 /**
  * This is the model class for table "book_author".
@@ -86,14 +87,14 @@ class BookAuthor extends \yii\db\ActiveRecord
 
         foreach ($records as $record) {
             $user = User::find()->where(['id' => $record->user_id])->one();
-            (new Subscriber([
+            (new EmailNotifier([
                 'subject' => "{$this->author->name}: Новая книга!",
                 'message' => $message,
-                'email' => $user->email,
+                'target' => $user->email,
             ]))->send();
 
             if ($user->phone) {
-                (new SmsSender(['message' => $message, 'phone' => $user->phone]));
+                (new SmsNotifier(['message' => $message, 'target' => $user->phone]));
             }
         }
 

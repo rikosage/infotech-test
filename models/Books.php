@@ -100,7 +100,6 @@ class Books extends \yii\db\ActiveRecord
      */
     public function afterSave($insert, $changedAttributes)
     {
-
         $relations = BookAuthor::find()->all();
 
         foreach ($this->bookAuthors as $relation) {

@@ -51,7 +51,7 @@ class BaseController extends Controller
      * @return \yii\db\ActiveRecord Искомая модель
      * @throws NotFoundHttpException Если модель не найдена
      */
-    protected function findModel(string $className, $id) : \yii\db\ActiveRecord
+    protected function findModel(string $className, int $id) : \yii\db\ActiveRecord
     {
         if (($model = $className::findOne($id)) !== null) {
             return $model;

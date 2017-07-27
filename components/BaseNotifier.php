@@ -7,7 +7,7 @@ use yii\base\Component;
 /**
  * Класс для отправки писем.
  */
-class BaseNotifier extends Component implements \app\interfaces\NotifierInterface
+abstract class BaseNotifier extends Component
 {
     /**
      * Сообщение
@@ -20,5 +20,11 @@ class BaseNotifier extends Component implements \app\interfaces\NotifierInterfac
      * @var string
      */
     public $target;
+
+    /**
+     * Отправка сообщения
+     * @return bool TRUE, если сообщение отправлено
+     */
+    public function send() : bool;
 
 }
